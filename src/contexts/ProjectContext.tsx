@@ -18,6 +18,7 @@ export interface Project {
 
 interface ProjectContextType {
     projects: Project[];
+    error: string | null;
     addProject: (project: Omit<Project, 'id' | 'createdAt'>) => void;
     updateProject: (id: string, updates: Partial<Project>) => void;
     deleteProject: (id: string) => void;
@@ -118,7 +119,8 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
     };
 
     return (
-        <ProjectContext.Provider value={{ projects, addProject, updateProject, deleteProject, getProjectsByType }}>
+        <ProjectContext.Provider value={{ projects, error, addProject, updateProject, deleteProject, getProjectsByType }}>
+
             {children}
         </ProjectContext.Provider>
     );
