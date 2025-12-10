@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans antialiased bg-slate-50 text-slate-900;
+  }
+  
+  /* Apply Arabic font when language is Arabic */
+  [dir="rtl"] body {
+    @apply font-arabic;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition-colors shadow-sm font-medium;
+  }
+  
+  .card-hover {
+    @apply hover:shadow-lg transition-shadow duration-300 border border-slate-200 bg-white rounded-xl;
+  }
+}
