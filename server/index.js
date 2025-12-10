@@ -19,7 +19,13 @@ initDb().then(database => {
 });
 
 // Serve static files from the React frontend app
-app.use(express.static(path.join(__dirname, '../dist')));
+app.use(express.static(path.join(__dirname, '../dist'), {
+    setHeaders: (res, path) => {
+        if (path.endsWith('.js') || path.endsWith('.mjs')) {
+            res.setHeader('Content-Type', 'application/javascript');
+        }
+    }
+}));
 
 // GET all projects
 app.get('/api/projects', async (req, res) => {
