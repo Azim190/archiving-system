@@ -11,6 +11,8 @@ import {
 import { useAuth } from '../../contexts/AuthContext';
 import { clsx } from 'clsx';
 
+import logo from '../../assets/logo.jpg';
+
 export const Sidebar = () => {
     const { t } = useTranslation();
     const { logout } = useAuth();
@@ -27,9 +29,7 @@ export const Sidebar = () => {
     return (
         <aside className="w-64 bg-white border-r border-slate-200 h-screen flex flex-col sticky top-0 rtl:border-r-0 rtl:border-l">
             <div className="p-6 border-b border-slate-100 flex items-center justify-center">
-                <div className="w-32 h-32 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 text-xs text-center border-2 border-dashed border-slate-300">
-                    Logo
-                </div>
+                <img src={logo} alt="Dar Makkah Logo" className="w-32 h-auto object-contain" />
             </div>
 
             <nav className="flex-1 p-4 space-y-1 overflow-y-auto">

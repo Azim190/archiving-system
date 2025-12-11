@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { Building2, ArrowRight, ArrowLeft } from 'lucide-react';
 
+import logo from '../assets/logo.jpg';
+
 export const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -34,8 +36,8 @@ export const Login = () => {
                 <div className="bg-brand-600 p-8 text-center relative overflow-hidden">
                     <div className="absolute inset-0 bg-brand-700/50 mix-blend-multiply"></div>
                     <div className="relative z-10 flex flex-col items-center">
-                        <div className="w-20 h-20 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4 border border-white/20">
-                            <Building2 className="w-10 h-10 text-white" />
+                        <div className="w-24 h-24 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-lg p-2">
+                            <img src={logo} alt="Dar Makkah Logo" className="w-full h-full object-contain" />
                         </div>
                         <h2 className="text-2xl font-bold text-white mb-2">{t('app.title')}</h2>
                         <p className="text-brand-100 text-sm">Engineering Consultants</p>
