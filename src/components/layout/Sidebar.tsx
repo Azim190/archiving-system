@@ -35,7 +35,7 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
     return (
         <>
             <aside className={clsx(
-                "fixed inset-y-0 start-0 z-50 w-64 bg-white border-r border-slate-200 flex flex-col transition-transform duration-300 ease-in-out md:static md:translate-x-0 rtl:border-r-0 rtl:border-l",
+                "fixed inset-y-0 start-0 z-50 w-64 bg-white border-r border-slate-200 flex flex-col transition-transform duration-300 ease-in-out md:static md:transform-none rtl:border-r-0 rtl:border-l",
                 isOpen ? "translate-x-0" : "-translate-x-full rtl:translate-x-full"
             )}>
                 <div className="p-6 border-b border-slate-100 flex items-center justify-between">
