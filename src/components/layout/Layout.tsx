@@ -3,13 +3,14 @@ import { Outlet, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Sidebar } from './Sidebar';
 import { useAuth } from '../../contexts/AuthContext';
-import { Globe, Headphones } from 'lucide-react';
+import { Globe, Headphones, Menu } from 'lucide-react';
 import { SupportModal } from '../ui/SupportModal';
 
 export const Layout = () => {
     const { user } = useAuth();
     const { i18n, t } = useTranslation();
     const [isSupportOpen, setIsSupportOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     // Handle direction change
     useEffect(() => {
@@ -27,21 +28,30 @@ export const Layout = () => {
 
     return (
         <div className="flex min-h-screen bg-slate-50 font-sans">
-            <Sidebar />
+            <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-            <main className="flex-1 flex flex-col min-w-0">
-                <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 sticky top-0 z-10 glass-effect">
-                    <h1 className="text-xl font-bold text-slate-800 tracking-tight">
-                        {t('app.title')}
-                    </h1>
+            <main className="flex-1 flex flex-col min-w-0 transition-all duration-300">
+                <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8 sticky top-0 z-10 glass-effect">
+                    <div className="flex items-center gap-3">
+                        <button
+                            onClick={() => setIsSidebarOpen(true)}
+                            className="p-2 -ml-2 text-slate-500 hover:bg-slate-100 rounded-lg md:hidden"
+                        >
+                            <Menu className="w-6 h-6" />
+                        </button>
+                        <h1 className="text-xl font-bold text-slate-800 tracking-tight">
+                            {t('app.title')}
+                        </h1>
+                    </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 md:gap-4">
                         <button
                             onClick={toggleLanguage}
                             className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium transition-colors"
                         >
                             <Globe className="w-4 h-4" />
-                            <span>{i18n.language === 'en' ? 'العربية' : 'English'}</span>
+                            <span className="hidden sm:inline">{i18n.language === 'en' ? 'العربية' : 'English'}</span>
+                            <span className="sm:hidden">{i18n.language === 'en' ? 'ع' : 'En'}</span>
                         </button>
 
                         <button
@@ -58,7 +68,7 @@ export const Layout = () => {
                     </div>
                 </header>
 
-                <div className="p-8 flex-1 overflow-auto">
+                <div className="p-4 md:p-8 flex-1 overflow-auto">
                     <Outlet context={{ openSupport: () => setIsSupportOpen(true) }} />
                 </div>
 
