@@ -39,7 +39,7 @@ export const Login = () => {
                         <div className="w-24 h-24 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-lg p-2">
                             <img src={logo} alt="Dar Makkah Logo" className="w-full h-full object-contain" />
                         </div>
-                        <h2 className="text-2xl font-bold text-white mb-2">{t('app.title')}</h2>
+                        <h2 className="text-lg md:text-2xl font-bold text-white mb-2">{t('app.title')}</h2>
                         <p className="text-brand-100 text-sm">Engineering Consultants</p>
                     </div>
                 </div>

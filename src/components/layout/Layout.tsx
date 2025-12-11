@@ -39,7 +39,7 @@ export const Layout = () => {
                         >
                             <Menu className="w-6 h-6" />
                         </button>
-                        <h1 className="text-xl font-bold text-slate-800 tracking-tight">
+                        <h1 className="text-base md:text-xl font-bold text-slate-800 tracking-tight text-center md:text-start leading-tight">
                             {t('app.title')}
                         </h1>
                     </div>
