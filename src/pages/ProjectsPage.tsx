@@ -230,7 +230,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ title, type }) => {
                             </div>
 
                             <div>
-                                <label className="text-sm font-medium text-slate-700 block mb-1">OneDrive Link (Optional)</label>
+                                <label className="text-sm font-medium text-slate-700 block mb-1">Download Files Link (Optional)</label>
                                 <input
                                     type="url"
                                     className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-200 outline-none"
