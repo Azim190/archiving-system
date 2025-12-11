@@ -11,7 +11,7 @@ import {
 import { useAuth } from '../../contexts/AuthContext';
 import { clsx } from 'clsx';
 
-import logo from '../../assets/logo.jpg';
+import logo from '../../assets/logo.png';
 
 export const Sidebar = () => {
     const { t } = useTranslation();

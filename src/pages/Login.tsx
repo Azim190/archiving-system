@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { Building2, ArrowRight, ArrowLeft } from 'lucide-react';
 
-import logo from '../assets/logo.jpg';
+import logo from '../assets/logo.png';
 
 export const Login = () => {
     const [email, setEmail] = useState('');
