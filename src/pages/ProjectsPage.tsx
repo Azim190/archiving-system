@@ -154,7 +154,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ title, type }) => {
                                         className="flex-1 flex items-center justify-center gap-2 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium"
                                     >
                                         <Cloud className="w-4 h-4" />
-                                        OneDrive
+                                        Download Files
                                     </a>
                                 ) : (
                                     <span className="flex-1 py-2 text-center text-slate-400 text-sm bg-slate-50 rounded-lg">No Link</span>
@@ -166,99 +166,101 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ title, type }) => {
             </div>
 
             {/* Modal */}
-            {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-                    <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
-                        <div className="p-6 border-b border-slate-100 flex justify-between items-center">
-                            <h3 className="text-xl font-bold text-slate-800">
-                                {editingProject ? 'Edit Project' : t('actions.add_project')}
-                            </h3>
-                            <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600">×</button>
+            {
+                isModalOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                        <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+                            <div className="p-6 border-b border-slate-100 flex justify-between items-center">
+                                <h3 className="text-xl font-bold text-slate-800">
+                                    {editingProject ? 'Edit Project' : t('actions.add_project')}
+                                </h3>
+                                <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600">×</button>
+                            </div>
+
+                            <form onSubmit={handleSubmit} className="p-6 space-y-4">
+                                <div>
+                                    <label className="text-sm font-medium text-slate-700 block mb-1">Project Name</label>
+                                    <input
+                                        required
+                                        className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-200 outline-none"
+                                        value={formData.name}
+                                        onChange={e => setFormData({ ...formData, name: e.target.value })}
+                                    />
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="text-sm font-medium text-slate-700 block mb-1">Client</label>
+                                        <input
+                                            required
+                                            className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-200 outline-none"
+                                            value={formData.client}
+                                            onChange={e => setFormData({ ...formData, client: e.target.value })}
+                                        />
+
+                                    </div>
+                                    <div>
+                                        <label className="text-sm font-medium text-slate-700 block mb-1">{t('actions.client_phone')}</label>
+                                        <input
+                                            className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-200 outline-none"
+                                            value={formData.clientPhone}
+                                            onChange={e => setFormData({ ...formData, clientPhone: e.target.value })}
+                                            placeholder="05..."
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="text-sm font-medium text-slate-700 block mb-1">Year</label>
+                                        <input
+                                            required
+                                            type="number"
+                                            className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-200 outline-none"
+                                            value={formData.year}
+                                            onChange={e => setFormData({ ...formData, year: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="text-sm font-medium text-slate-700 block mb-1">Location</label>
+                                    <input
+                                        required
+                                        className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-200 outline-none"
+                                        value={formData.location}
+                                        onChange={e => setFormData({ ...formData, location: e.target.value })}
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="text-sm font-medium text-slate-700 block mb-1">Download Files Link (Optional)</label>
+                                    <input
+                                        type="url"
+                                        className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-200 outline-none"
+                                        value={formData.oneDriveLink}
+                                        onChange={e => setFormData({ ...formData, oneDriveLink: e.target.value })}
+                                        placeholder="https://..."
+                                    />
+                                </div>
+
+                                <div className="pt-4 flex justify-end gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsModalOpen(false)}
+                                        className="px-4 py-2 text-slate-600 hover:bg-slate-50 rounded-lg font-medium"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="btn-primary"
+                                    >
+                                        {editingProject ? 'Save Changes' : 'Create Project'}
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-
-                        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                            <div>
-                                <label className="text-sm font-medium text-slate-700 block mb-1">Project Name</label>
-                                <input
-                                    required
-                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-200 outline-none"
-                                    value={formData.name}
-                                    onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="text-sm font-medium text-slate-700 block mb-1">Client</label>
-                                    <input
-                                        required
-                                        className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-200 outline-none"
-                                        value={formData.client}
-                                        onChange={e => setFormData({ ...formData, client: e.target.value })}
-                                    />
-
-                                </div>
-                                <div>
-                                    <label className="text-sm font-medium text-slate-700 block mb-1">{t('actions.client_phone')}</label>
-                                    <input
-                                        className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-200 outline-none"
-                                        value={formData.clientPhone}
-                                        onChange={e => setFormData({ ...formData, clientPhone: e.target.value })}
-                                        placeholder="05..."
-                                    />
-                                </div>
-                                <div>
-                                    <label className="text-sm font-medium text-slate-700 block mb-1">Year</label>
-                                    <input
-                                        required
-                                        type="number"
-                                        className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-200 outline-none"
-                                        value={formData.year}
-                                        onChange={e => setFormData({ ...formData, year: e.target.value })}
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="text-sm font-medium text-slate-700 block mb-1">Location</label>
-                                <input
-                                    required
-                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-200 outline-none"
-                                    value={formData.location}
-                                    onChange={e => setFormData({ ...formData, location: e.target.value })}
-                                />
-                            </div>
-
-                            <div>
-                                <label className="text-sm font-medium text-slate-700 block mb-1">Download Files Link (Optional)</label>
-                                <input
-                                    type="url"
-                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-200 outline-none"
-                                    value={formData.oneDriveLink}
-                                    onChange={e => setFormData({ ...formData, oneDriveLink: e.target.value })}
-                                    placeholder="https://..."
-                                />
-                            </div>
-
-                            <div className="pt-4 flex justify-end gap-3">
-                                <button
-                                    type="button"
-                                    onClick={() => setIsModalOpen(false)}
-                                    className="px-4 py-2 text-slate-600 hover:bg-slate-50 rounded-lg font-medium"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="btn-primary"
-                                >
-                                    {editingProject ? 'Save Changes' : 'Create Project'}
-                                </button>
-                            </div>
-                        </form>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 };
