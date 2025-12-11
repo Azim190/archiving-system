@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Building2, Ruler, Map, Zap, Building, Search, Phone, User, Calendar, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
-import { useProjects, Project } from '../contexts/ProjectContext';
+import { useProjects, type Project } from '../contexts/ProjectContext';
 
 interface DashboardContext {
     openSupport: () => void;
