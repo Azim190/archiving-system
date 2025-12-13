@@ -33,16 +33,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 body: JSON.stringify({ name, idNumber }),
             });
 
-            if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.error || 'Login failed');
+            const text = await response.text();
+
+            let data;
+            try {
+                data = text ? JSON.parse(text) : {};
+            } catch (e) {
+                console.error('Failed to parse login response:', text);
+                throw new Error('Server returned invalid response');
             }
 
-            const userData = await response.json();
-            setUser(userData);
-            localStorage.setItem('user', JSON.stringify(userData));
+            if (!response.ok) {
+                throw new Error(data.error || `Login failed (${response.status})`);
+            }
+
+            setUser(data);
+            localStorage.setItem('user', JSON.stringify(data));
             return true;
         } catch (err: any) {
+            console.error('Login error:', err);
             setError(err.message);
             return false;
         }
