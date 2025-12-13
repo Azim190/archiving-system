@@ -40,6 +40,11 @@ app.get('/api/projects', async (req, res) => {
 // GET projects by type (optional optimization, but frontend does filtering)
 // We will just fetch all for now to keep it simple and match current context logic.
 
+app.get('/api/status', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date(), version: '1.1' });
+});
+
+console.log('Registering /api/login route...');
 // POST login
 app.post('/api/login', async (req, res) => {
     try {
@@ -115,6 +120,11 @@ app.delete('/api/projects/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+});
+
+// Handle API 404
+app.use('/api', (req, res) => {
+    res.status(404).json({ error: 'API endpoint not found' });
 });
 
 app.get('*', (req, res) => {
