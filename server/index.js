@@ -44,13 +44,19 @@ app.get('/api/status', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date(), version: '1.1' });
 });
 
-console.log('Registering /api/login route...');
+console.log('Registering /api/auth/login route...');
 // POST login
-app.post('/api/login', async (req, res) => {
+app.post('/api/auth/login', async (req, res) => {
     try {
         const { name, idNumber } = req.body;
+        console.log('Login attempt:', name, idNumber); // Log attempts
         if (!name || !idNumber) {
             return res.status(400).json({ error: 'Name and ID number are required' });
+        }
+
+        // Ensure DB is ready
+        if (!db) {
+            return res.status(503).json({ error: 'Database not initialized yet' });
         }
 
         // Case-insensitive name match, exact ID match
@@ -62,6 +68,7 @@ app.post('/api/login', async (req, res) => {
             res.status(401).json({ error: 'Invalid name or ID number' });
         }
     } catch (error) {
+        console.error('Login error:', error);
         res.status(500).json({ error: error.message });
     }
 });
