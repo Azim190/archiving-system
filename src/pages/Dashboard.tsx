@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Building2, Ruler, Map, Zap, Building, Search, Phone, User, Calendar, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { useProjects, type Project } from '../contexts/ProjectContext';
 
 interface DashboardContext {
@@ -15,14 +16,17 @@ export const Dashboard = () => {
     const { projects, getProjectsByType } = useProjects();
     const [searchQuery, setSearchQuery] = useState('');
 
-    const sections = [
+    const { user } = useAuth(); // Import user
+
+    const allSections = [ // Rename to allSections
         {
             id: 'arch',
             title: t('sections.architectural'),
             icon: Building2,
             color: 'bg-blue-500',
             link: '/architectural',
-            count: getProjectsByType('architectural').length
+            count: getProjectsByType('architectural').length,
+            sectionId: 'architectural' // Add sectionId for mapping
         },
         {
             id: 'struct',
@@ -30,7 +34,8 @@ export const Dashboard = () => {
             icon: Ruler,
             color: 'bg-emerald-500',
             link: '/structural',
-            count: getProjectsByType('structural').length
+            count: getProjectsByType('structural').length,
+            sectionId: 'structural'
         },
         {
             id: 'survey',
@@ -38,7 +43,8 @@ export const Dashboard = () => {
             icon: Map,
             color: 'bg-amber-500',
             link: '/surveying',
-            count: getProjectsByType('surveying').length
+            count: getProjectsByType('surveying').length,
+            sectionId: 'surveying'
         },
         {
             id: 'electrical',
@@ -46,7 +52,8 @@ export const Dashboard = () => {
             icon: Zap,
             color: 'bg-yellow-500',
             link: '/electrical',
-            count: getProjectsByType('electrical').length
+            count: getProjectsByType('electrical').length,
+            sectionId: 'electrical'
         },
         {
             id: 'mechanical',
@@ -54,9 +61,16 @@ export const Dashboard = () => {
             icon: Building,
             color: 'bg-orange-500',
             link: '/mechanical',
-            count: getProjectsByType('mechanical').length
+            count: getProjectsByType('mechanical').length,
+            sectionId: 'mechanical'
         },
     ];
+
+    const sections = allSections.filter(section => {
+        if (!user) return false;
+        if (user.role === 'admin') return true;
+        return section.sectionId === user.section?.toLowerCase();
+    });
 
     const filteredProjects = projects.filter(project => {
         if (!searchQuery) return false;
