@@ -7,24 +7,25 @@ import { Building2, ArrowRight, ArrowLeft } from 'lucide-react';
 import logo from '../assets/logo.png';
 
 export const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [idNumber, setIdNumber] = useState('');
 
-    const { login } = useAuth();
+    const { login, error: authError } = useAuth();
     const navigate = useNavigate();
     const { t, i18n } = useTranslation();
 
-    const [error, setError] = useState('');
+    const [localError, setLocalError] = useState('');
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError('');
+        setLocalError('');
 
-        if (email === 'abd.ibrahim@darmaaka.com' && password === '123456789') {
-            login(email);
+        const success = await login(name, idNumber);
+        if (success) {
             navigate('/');
         } else {
-            setError('Invalid email or password');
+            // AuthContext handles setting its own error, but we can sync local state if needed
+            // Or just rely on authError. For now, let's assume authError is sufficient but we might want to clear inputs?
         }
     };
 
@@ -45,42 +46,42 @@ export const Login = () => {
                 </div>
 
                 <form onSubmit={handleSubmit} className="p-8 space-y-6">
-                    {error && (
+                    {(authError || localError) && (
                         <div className="p-3 text-sm text-red-500 bg-red-50 border border-red-100 rounded-lg">
-                            {error}
+                            {authError || localError}
                         </div>
                     )}
                     <div>
                         <label className="block text-sm font-medium text-slate-700 mb-2">
-                            {t('auth.email')}
+                            Name
                         </label>
                         <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all"
-                            placeholder="abd.ibrahim@darmaaka.com"
+                            placeholder="Type your name"
                             required
                         />
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium text-slate-700 mb-2">
-                            {t('auth.password')}
+                            ID Number
                         </label>
                         <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            type="text" // Changed to text to avoid spinner on some browsers, or allow leading zeros
+                            value={idNumber}
+                            onChange={(e) => setIdNumber(e.target.value)}
                             className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition-all"
-                            placeholder="••••••••"
+                            placeholder="Enter your ID number"
                             required
                         />
                     </div>
 
                     <button
                         type="submit"
-                        className="w-full bg-brand-600 text-white py-3 rounded-lg font-semibold hover:g-brand-700 transition-colors flex items-center justify-center gap-2 group"
+                        className="w-full bg-brand-600 text-white py-3 rounded-lg font-semibold hover:bg-brand-700 transition-colors flex items-center justify-center gap-2 group"
                     >
                         <span>{t('auth.signin')}</span>
                         {isRTL ?

@@ -21,16 +21,23 @@ interface SidebarProps {
 
 export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
     const { t } = useTranslation();
-    const { logout } = useAuth();
+    const { logout, user } = useAuth();
 
-    const navItems = [
-        { to: '/', icon: LayoutDashboard, label: t('app.dashboard') },
-        { to: '/architectural', icon: Building2, label: t('sections.architectural') },
-        { to: '/structural', icon: Building, label: t('sections.structural') },
-        { to: '/surveying', icon: Map, label: t('sections.surveying') },
-        { to: '/electrical', icon: Zap, label: t('sections.electrical') },
-        { to: '/mechanical', icon: Building, label: t('sections.mechanical') },
+    const allNavItems = [
+        { to: '/', icon: LayoutDashboard, label: t('app.dashboard'), section: 'all' },
+        { to: '/architectural', icon: Building2, label: t('sections.architectural'), section: 'architectural' },
+        { to: '/structural', icon: Building, label: t('sections.structural'), section: 'structural' },
+        { to: '/surveying', icon: Map, label: t('sections.surveying'), section: 'surveying' },
+        { to: '/electrical', icon: Zap, label: t('sections.electrical'), section: 'electrical' },
+        { to: '/mechanical', icon: Building, label: t('sections.mechanical'), section: 'mechanical' },
     ];
+
+    const navItems = allNavItems.filter(item => {
+        if (!user) return false;
+        if (user.role === 'admin') return true;
+        if (item.section === 'all') return true;
+        return item.section === user.section?.toLowerCase();
+    });
 
     return (
         <>

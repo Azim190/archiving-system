@@ -40,6 +40,27 @@ app.get('/api/projects', async (req, res) => {
 // GET projects by type (optional optimization, but frontend does filtering)
 // We will just fetch all for now to keep it simple and match current context logic.
 
+// POST login
+app.post('/api/login', async (req, res) => {
+    try {
+        const { name, idNumber } = req.body;
+        if (!name || !idNumber) {
+            return res.status(400).json({ error: 'Name and ID number are required' });
+        }
+
+        // Case-insensitive name match, exact ID match
+        const user = await db.get('SELECT * FROM users WHERE lower(name) = lower(?) AND id_number = ?', [name, idNumber]);
+
+        if (user) {
+            res.json(user);
+        } else {
+            res.status(401).json({ error: 'Invalid name or ID number' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // POST create project
 app.post('/api/projects', async (req, res) => {
     try {
